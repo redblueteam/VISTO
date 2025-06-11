@@ -192,8 +192,4 @@ VISTO is distributed under the Apache License 2.0.
 ![Screenshot of project history (audit trail)](/assets/images/Project_History_sample_view.png)
 
 **`SC04. Screenshot of VISTO LLM generated report`**
-<<<<<<< HEAD
 ![Screenshot of a sample LLM generated report](/assets/images/LLM_generated_sample_report.png)
-=======
-![Screenshot of a sample LLM generated report](/assets/images/LLM_generated_sample_report.png)
->>>>>>> 3830d8eb5236e033b63ac26ae70ceb13c797e2e4
