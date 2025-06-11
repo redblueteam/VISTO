@@ -158,6 +158,10 @@ osint domain {domain_name} whois_check
 ```
 osint fqdn www.owasp.org tls_check
 ```
+`e.g., Ask Local LLM for other questions`
+```
+ask_ai What is XSS? How to remediate?
+```
 
 ## :warning: **Important Considerations & Disclaimers**
 
@@ -175,3 +179,17 @@ Contributions are welcome! If you have suggestions for improvements, bug reports
 ## :blue_book: **License**
 
 VISTO is distributed under the Apache License 2.0.
+
+## :computer: **Screenshots**
+
+**`SC01. Screenshot of VISTO login page`**
+![Screenshot of VISTO login page](/assets/images/Login_sample.png)
+
+**`SC02. Screenshot of VISTO Dashboard`**
+![Screenshot of VISTO Dashboard](/assets/images/Dashboard_sample.png)
+
+**`SC03. Screenshot of VISTO project history (audit trail)`**
+![Screenshot of project history (audit trail)](/assets/images/Project_History_sample_view.png)
+
+**`SC04. Screenshot of VISTO LLM generated report`**
+![Screenshot of a sample LLM generated report](/assets/images/LLM_generated_sample_report.png)

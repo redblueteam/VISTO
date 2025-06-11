@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-[calc(100vh-120px)]">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Register</h2>
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-semibold mb-2">Username:</label>
+                <input type="text" id="username" name="username" required
+                       class="shadow-sm appearance-none border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password:</label>
+                <input type="password" id="password" name="password" required
+                       class="shadow-sm appearance-none border rounded-md w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+            </div>
+            <button type="submit"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline transition duration-300 shadow-md">
+                Register
+            </button>
+        </form>
+        <p class="text-center text-gray-600 text-sm mt-4">
+            Already have an account? <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline">Login here</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

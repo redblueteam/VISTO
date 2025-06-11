@@ -1,0 +1,11 @@
+Flask
+Pillow
+requests
+pyotp
+qrcode
+python-nmap
+shodan
+dnspython
+python-whois
+beautifulsoup4
+ipaddress

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project History - {{ project_name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Base styles for better readability and structure */
+        body { 
+            font-family: 'Inter', sans-serif; /* Recommended font */
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f4f4f4; 
+            color: #333; 
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #333; 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            text-align: center;
+            font-weight: bold;
+        }
+        p { margin-bottom: 10px; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .toggle-btn {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            display: inline-block;
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+        /* Custom styles for preformatted text areas that include <br> tags */
+        .raw-output, .structured-results, .llm-analysis {
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 5px;
+            color: #333;
+            word-wrap: break-word; /* Ensure long words break */
+            overflow-x: auto; /* For structured_results if they are very wide */
+        }
+        /* Explicitly set white-space for each type */
+        .raw-output {
+            white-space: pre-wrap; /* For raw output, preserves original formatting AND interprets <br> */
+            line-height: 1.4; /* Improve line spacing */
+        }
+        .structured-results {
+            white-space: pre-wrap; /* For JSON, preserve whitespace and wrap */
+            line-height: 1.4;
+        }
+        .llm-analysis {
+            white-space: pre-wrap; /* For LLM analysis, preserves spaces and breaks */
+            line-height: 1.6; /* More generous line spacing for readability */
+            margin-bottom: 10px; /* Add some space after the analysis block */
+        }
+
+        /* Class to hide elements, used by toggleVisibility */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Project History: {{ project_name }}</h1>
+
+        <div class="mb-4">
+            <a href="{{ url_for('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h14"></path></svg>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <script>
+            function toggleVisibility(id) {
+                const element = document.getElementById(id);
+                if (element) {
+                    // Check if it's currently hidden using the class
+                    if (element.classList.contains('hidden')) {
+                        element.classList.remove('hidden');
+                    } else {
+                        element.classList.add('hidden');
+                    }
+                }
+            }
+        </script>
+
+        {% if history %}
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Timestamp
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Command
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Details
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in history %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-no-wrap">{{ entry.timestamp }}</p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 whitespace-pre-wrap font-mono">{{ entry.user_command }}</p>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <span class="relative inline-block px-3 py-1 font-semibold leading-tight {% if entry.status == 'success' %}text-green-900{% elif entry.status == 'error' %}text-red-900{% elif entry.status == 'warning' %}text-orange-900{% else %}text-gray-900{% endif %}">
+                                <span aria-hidden class="absolute inset-0 {% if entry.status == 'success' %}bg-green-200{% elif entry.status == 'error' %}bg-red-200{% elif entry.status == 'warning' %}bg-orange-200{% else %}bg-gray-200{% endif %} opacity-50 rounded-full"></span>
+                                <span class="relative">{{ entry.status }}</span>
+                            </span>
+                        </td>
+                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p class="text-gray-900 mb-2">{{ entry.message }}</p>
+
+                            {% if entry.raw_output %}
+                                <button class="toggle-btn bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold py-1 px-3 rounded-md mb-2" onclick="toggleVisibility('raw-{{ entry.id }}')">Raw Output</button>
+                                <pre id="raw-{{ entry.id }}" class="raw-output bg-gray-100 p-3 rounded-md hidden">{{ entry.raw_output | safe }}</pre>
+                            {% endif %}
+
+                            {% if entry.structured_results %}
+                                <button class="toggle-btn bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold py-1 px-3 rounded-md mb-2" onclick="toggleVisibility('structured-{{ entry.id }}')">Structured Results</button>
+                                <pre id="structured-{{ entry.id }}" class="structured-results bg-gray-100 p-3 rounded-md hidden">{{ entry.structured_results | tojson(indent=2) }}</pre>
+                            {% endif %}
+
+                            {% if entry.llm_analysis %}
+                                <button class="toggle-btn bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold py-1 px-3 rounded-md mb-2" onclick="toggleVisibility('llm-{{ entry.id }}')">LLM Analysis</button>
+                                <pre id="llm-{{ entry.id }}" class="llm-analysis bg-gray-100 p-3 rounded-md hidden">{{ entry.llm_analysis | safe }}</pre>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-gray-600 text-center mt-8">No command history for this project yet.</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>
