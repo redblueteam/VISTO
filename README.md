@@ -158,6 +158,10 @@ osint domain {domain_name} whois_check
 ```
 osint fqdn www.owasp.org tls_check
 ```
+`e.g., Ask Local LLM for other questions`
+```
+ask_ai What is XSS? How to remediate?
+```
 
 ## :warning: **Important Considerations & Disclaimers**
 
